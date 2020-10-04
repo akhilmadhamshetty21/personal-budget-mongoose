@@ -3,22 +3,7 @@ const app = express();
 const port = 3000;
 
 app.use("/", express.static("public"));
-const budget = {
-  myBudget: [
-    {
-      title: "Eat Out",
-      budget: 30,
-    },
-    {
-      title: "Rent",
-      budget: 385,
-    },
-    {
-      title: "Grocery",
-      budget: 110,
-    },
-  ],
-};
+const budget = require("./data");
 app.get("/hello", (req, res) => {
   res.send("Hello World!");
 });
