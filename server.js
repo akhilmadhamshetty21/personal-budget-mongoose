@@ -1,12 +1,11 @@
+//providing data
+
 const express = require("express");
+const cors = require("cors")
 const app = express();
 const port = 3000;
-
-app.use("/", express.static("public"));
 const budget = require("./data");
-app.get("/hello", (req, res) => {
-  res.send("Hello World!");
-});
+app.use(cors());
 app.get("/budget", (req, res) => {
   res.json(budget);
 });
