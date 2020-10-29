@@ -190,13 +190,6 @@
           {
             data: [],
             backgroundColor: [
-              "#ffcd56",
-              "#ff6384",
-              "#36a2eb",
-              "#fd6b19",
-              "#AB6F62",
-              "#766D0F",
-              "#90A2F3",
             ],
           },
         ],
@@ -210,11 +203,15 @@
         });
       }
       function getBudget() {
-        axios.get("http://localhost:3000/budget").then(function (res) {
-          for (var i = 0; i < res.data.myBudget.length; i++) {
-            dataSource.datasets[0].data[i] = res.data.myBudget[i].budget;
-            dataSource.labels[i] = res.data.myBudget[i].title;
+        axios.get("http://localhost:4000/api/budget").then(function (res) {
+          console.log(res);
+          var str="#";
+          for (var i = 0; i < res.data.length; i++) {
+            dataSource.datasets[0].data[i] = res.data[i].cost;
+            dataSource.datasets[0].backgroundColor[i] = res.data[i].color;
+            dataSource.labels[i] = res.data[i].title;
           }
+          console.log(dataSource);
           createChart();
         });
       }
@@ -223,25 +220,19 @@
     <script>
       data1 = [];
       label1 = [];
+      backgroundColor=[];
       var color;
       function getBudget() {
-        axios.get("http://localhost:3000/budget").then(function (res) {
-          for (var i = 0; i < res.data.myBudget.length; i++) {
-            data1.push(res.data.myBudget[i].budget);
-            label1.push(res.data.myBudget[i].title);
+        axios.get("http://localhost:4000/api/budget").then(function (res) {
+          for (var i = 0; i < res.data.length; i++) {
+            data1.push(res.data[i].cost);
+            label1.push(res.data[i].title);
+            backgroundColor.push(res.data[i].color);
           }
           color = d3.scale
             .ordinal()
             .domain(label1)
-            .range([
-              "#98abc5",
-              "#8a89a6",
-              "#7b6888",
-              "#6b486b",
-              "#a05d56",
-              "#d0743c",
-              "#ff8c00",
-            ]);
+            .range(backgroundColor);
           console.log(color);
           function gend3Data() {
             var labels = color.domain();
